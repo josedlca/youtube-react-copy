@@ -7,17 +7,36 @@ class App extends Component{
     super()
     this.state={
       API_KEY:'AIzaSyDx4hKw7GYUajee_cZzcpuId8V8FvnKizI',
-      searchInput: ""
+      searchInput: "",
+      loading:true,
+      youData: {}
     }
+  }
+
+  componentDidMount(){
+    const api = new YoutubeDataAPI(this.state.API_KEY);
+    api.searchAll("news",25).then((data) => {
+        this.setState({
+          loading: false,
+          youData:data
+        });
+    },(err) => {
+        console.error(err);
+    })
   }
 
   handleClick=()=>{
     const api = new YoutubeDataAPI(this.state.API_KEY);
     api.searchAll(this.state.searchInput,25).then((data) => {
-        console.log(data);
+        this.setState({
+          youData:data
+        });
     },(err) => {
         console.error(err);
     })
+    console.log(this.state.youData.items[2].id.videoId)
+    console.log(this.state.youData.items[2].snippet.title)
+    console.log(this.state.youData.items[2].snippet.thumbnails.default)
   }
 
   handleChangeInput=(e)=>{
@@ -28,6 +47,11 @@ class App extends Component{
   }
 
   render(){
+    const firstLook=
+      this.state.loading ? 
+      "loading..." : 
+      this.state.youData.items.map((item) => (<li>{item.snippet.title}</li>))
+
     return (
       <div className="App">
         <input 
@@ -38,6 +62,7 @@ class App extends Component{
           onChange={this.handleChangeInput}
         />
         <button onClick={this.handleClick}>Buscar</button>
+        {firstLook }
       </div>
     );
   }

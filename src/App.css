@@ -1,0 +1,29 @@
+.main__video__container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.videoCard__container{
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    margin: 0 6px 10px 6px;
+}
+
+.videoCard__container__thumbnail{
+    position: relative;
+    padding-top: 51%;
+    height: 100%;
+}
+.videoCard__container__thumbnail--img{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.videoCard__container__info{
+    display: flex;
+    flex-direction: row;
+}

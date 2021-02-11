@@ -55,17 +55,24 @@ class App extends Component{
 
     return (
       <div className="App">
-        <input 
-          type="text"
-          value={this.state.searchInput}
-          name="searchInput"
-          placeholder="Buscar"
-          onChange={this.handleChangeInput}
-        />
-        <button onClick={this.handleClick}>Buscar</button>
-        {console.log(this.state.youData.items)}
+        <header>
+          <input 
+            type="text"
+            value={this.state.searchInput}
+            name="searchInput"
+            placeholder="Buscar"
+            onChange={this.handleChangeInput}
+          />
+          <button onClick={this.handleClick}>Buscar</button>
+        </header>
         {firstLook }
-        <VideoCards/>
+        <main className="main__video__container">
+          <VideoCards/>
+          <VideoCards/>
+          <VideoCards/>
+          <VideoCards/>
+          <VideoCards/>
+        </main>
       </div>
     );
   }

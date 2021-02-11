@@ -14,10 +14,9 @@ function VideoCards(){
             <div className="videoCard__container__info">
 
                 <div className="videoCard__container__info__miniature">
-                    <img 
-                        className="videoCard__container__info__miniature--img"
-                        src="/img/miniPicture.jpg"
-                    />
+                    <div className="videoCard__container__info__miniature--img">
+                        <img src="/img/miniPicture.jpg"/>
+                    </div>
                 </div>
 
                 <div className="videoCard__container__info__text">

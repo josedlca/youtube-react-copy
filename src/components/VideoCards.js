@@ -1,7 +1,25 @@
 import React from 'react'
 
 function VideoCards(props){
-    console.log(props.videoData.snippet.thumbnails.url)
+    let pastDate = new Date(props.videoData.snippet.publishedAt)
+    let currentDate = new Date()
+
+    function myFunc(){
+        let howMuchTime
+        if( currentDate.getFullYear() != pastDate.getFullYear()){
+            howMuchTime = `hace ${currentDate.getFullYear() - pastDate.getFullYear()} años`
+        }else if(currentDate.getMonth() != pastDate.getMonth()){
+            howMuchTime = `hace ${currentDate.getMonth() - pastDate.getMonth()} meses`
+        }else if(currentDate.getDay() != pastDate.getDay()){
+            howMuchTime = `hace ${currentDate.getDay() - pastDate.getDay()} dias`
+        }else if( currentDate.getHours() != pastDate.getHours()){
+            howMuchTime = `hace ${currentDate.getHours() - pastDate.getHours()} horas`
+        }else{
+            howMuchTime = currentDate.getMinutes()- pastDate.getMinutes()
+        }
+        return howMuchTime
+    }
+
     return(
         <div className="videoCard__container">
 
@@ -34,7 +52,7 @@ function VideoCards(props){
 
                         <div className="videoCard__container__info__text--relative_viewsAndtime">
                             <span>0000.000 vistas</span>
-                            <span>{props.videoData.snippet.publishedAt}</span>
+                            <span>{myFunc()}</span>
                         </div>
 
                     </div>

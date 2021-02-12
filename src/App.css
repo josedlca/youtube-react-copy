@@ -17,6 +17,8 @@ body{
 .main__video__container{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     width: 100%;
 }
 
@@ -30,7 +32,7 @@ body{
 .videoCard__container__thumbnail{
     position: relative;
     padding-top: 51%;
-    height: 100%;
+    max-height: 100%;
 }
 .videoCard__container__thumbnail--img{
     position: absolute;
@@ -98,6 +100,7 @@ body{
      background-color: #202020;
      justify-content: center;
      padding: 15px 0;
+     margin-bottom: 15px;
  }
 
  .header__container{
@@ -121,16 +124,18 @@ body{
      border: none;
      outline: none;
      width: 100%;
+     padding: 4px 0;
  }
 
  .header__btn{
      border: none;
      outline: none;
      background-color: #313131;
-     padding: 0 20px;
+     padding: 0 25px;
      cursor: pointer;
      border-radius: 0;
      position: absolute;
+     height: 100%;
      right: 0;
  }
 

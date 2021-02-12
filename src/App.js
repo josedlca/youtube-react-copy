@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import './App.css';
 import {YoutubeDataAPI} from 'youtube-v3-api'
+import Header from './components/Header'
 import VideoCards from './components/VideoCards'
 
 class App extends Component{
@@ -55,16 +56,11 @@ class App extends Component{
 
     return (
       <div className="App">
-        <header>
-          <input 
-            type="text"
-            value={this.state.searchInput}
-            name="searchInput"
-            placeholder="Buscar"
-            onChange={this.handleChangeInput}
-          />
-          <button onClick={this.handleClick}>Buscar</button>
-        </header>
+        <Header
+          handleChangeInput={this.handleChangeInput}
+          handleClick={this.handleClick}
+          {...this.state}
+        />
         {firstLook }
         <main className="main__video__container">
           <VideoCards/>

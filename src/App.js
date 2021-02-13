@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import './App.css';
 import {YoutubeDataAPI} from 'youtube-v3-api'
 import Header from './components/Header'
-import VideoCards from './components/VideoCards'
+import MainPage from './MainPage'
 
 class App extends Component{
   constructor(){
@@ -53,13 +53,9 @@ class App extends Component{
           handleClick={this.handleClick}
           {...this.state}
         />
-        <main className="main__video__container">
-          {
-            this.state.loading ? 
-            "loading..." : 
-            this.state.youData.items.map((item,index) => (<VideoCards key={index} videoData={item}/>))
-          }
-        </main>
+        <MainPage
+          {...this.state}
+        />
       </div>
     );
   }

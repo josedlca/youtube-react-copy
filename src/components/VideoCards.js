@@ -1,10 +1,9 @@
 import React from 'react'
 
 function VideoCards(props){
-    let pastDate = new Date(props.videoData.snippet.publishedAt)
-    let currentDate = new Date()
-
     function myFunc(){
+        let pastDate = new Date(props.videoData.snippet.publishedAt)
+        let currentDate = new Date()
         let howMuchTime
         if( currentDate.getFullYear() != pastDate.getFullYear()){
             howMuchTime = `hace ${currentDate.getFullYear() - pastDate.getFullYear()} años`
@@ -19,7 +18,6 @@ function VideoCards(props){
         }
         return howMuchTime
     }
-
     return(
         <div className="videoCard__container">
 

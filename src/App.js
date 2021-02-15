@@ -3,6 +3,8 @@ import './App.css';
 import {YoutubeDataAPI} from 'youtube-v3-api'
 import Header from './components/Header'
 import MainPage from './MainPage'
+import VideoPlayer from './VideoPlayer'
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
 class App extends Component{
   constructor(){
@@ -47,16 +49,21 @@ class App extends Component{
 
   render(){
     return (
-      <div className="App">
-        <Header
-          handleChangeInput={this.handleChangeInput}
-          handleClick={this.handleClick}
-          {...this.state}
-        />
-        <MainPage
-          {...this.state}
-        />
-      </div>
+      <Router>
+        <div className="App">
+          <Header
+            handleChangeInput={this.handleChangeInput}
+            handleClick={this.handleClick}
+            {...this.state}
+          />
+          <Route path='/' exact>
+            <MainPage
+              {...this.state}
+            />
+          </Route>
+          <Route path='/videoPlayer/:id' component={VideoPlayer}/>
+        </div>
+      </Router>
     );
   }
 }

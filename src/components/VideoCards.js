@@ -1,7 +1,8 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
-function VideoCards(props){
-    function myFunc(){
+const VideoCards=(props)=>{
+    let videoDaysCounter=()=>{
         let pastDate = new Date(props.videoData.snippet.publishedAt)
         let currentDate = new Date()
         let howMuchTime
@@ -19,7 +20,10 @@ function VideoCards(props){
         return howMuchTime
     }
     return(
-        <div className="videoCard__container">
+        <Link 
+            className="videoCard__container"
+            to={`/videoPlayer/${props.videoData.id.videoId}`}
+        >
 
             <div className="videoCard__container__thumbnail">
                 <img 
@@ -50,14 +54,14 @@ function VideoCards(props){
 
                         <div className="videoCard__container__info__text--relative_viewsAndtime">
                             <span>0000.000 vistas</span>
-                            <span>{myFunc()}</span>
+                            <span>{videoDaysCounter()}</span>
                         </div>
 
                     </div>
 
                 </div>
             </div>
-        </div>
+        </Link>
     )
 }
 

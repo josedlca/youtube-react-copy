@@ -7,18 +7,17 @@ const VideoPlayer= ({match})=>{
         gettingVideoData();
     }, [])
     const [videoDataComments, setVideoDataComments] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
 
     const gettingVideoData = ()=>{
         const api = new YoutubeDataAPI(process.env.REACT_APP_API_KEY);
-        api.searchCommentThreads(match.params.id).then((data) => {
+        api.searchCommentThreads(match.params.id,{order:'relevance'}).then((data) => {
             setVideoDataComments(data)
+            setIsLoading(false)
         },(err) => {
             console.error(err);
         })
     }
-
-    console.log(match.params.id)
-    console.log(videoDataComments)
     return(
         <main className="videoplayer">
             <div className="videoplayer__videoAndComments">
@@ -28,10 +27,51 @@ const VideoPlayer= ({match})=>{
                         frameBorder="0" 
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                         allowFullScreen>
+
                     </iframe>
                 </div>
                 <div className="videoplayer__videoAndComments--comments">
-                    Aqui van los comentarios
+                    {
+                        isLoading?
+                        <div>Loading comments...</div>:
+                        videoDataComments.items.map((item) => (
+
+                            <div className="videoplayer__videoAndComments--comments_comment">
+                                <div className="videoplayer__videoAndComments--comments_comment-img">
+                                    <div className ="videoplayer__videoAndComments--comments_comment-img-container">
+                                        <img src={item.snippet.topLevelComment.snippet.authorProfileImageUrl}/>
+                                    </div>
+                                </div>
+                                <div className="videoplayer__videoAndComments--comments_comment-content">
+                                    <div className="videoplayer__videoAndComments--comments_comment-content-head">
+                                        <p>{item.snippet.topLevelComment.snippet.authorDisplayName}</p>
+                                        <span>{item.snippet.topLevelComment.snippet.publishedAt}</span>
+                                    </div>
+
+                                    <div className="videoplayer__videoAndComments--comments_comment-content-main">
+                                        <p>{item.snippet.topLevelComment.snippet.textOriginal}</p>
+                                    </div>
+
+                                    <div className="videoplayer__videoAndComments--comments_comment-content-likes">
+                                        <span>
+                                            <i class="fas fa-thumbs-up"></i>
+                                            {item.snippet.topLevelComment.snippet.likeCount}
+                                        </span>
+                                        <span>
+                                            <i class="fas fa-thumbs-down"></i>
+                                        </span>
+                                    </div>
+                                    <div className="videoplayer__videoAndComments--comments_comment-content-replies">
+                                        <span>
+                                            <i class="fas fa-sort-down"></i>
+                                            Ver respuestas
+                                        </span>                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                        ))
+                    }                 
                 </div>
             </div>
             <div>

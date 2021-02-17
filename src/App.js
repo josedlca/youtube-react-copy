@@ -18,7 +18,7 @@ class App extends Component{
   }
 
   componentDidMount(){
-    const api = new YoutubeDataAPI(this.state.API_KEY);
+    const api = new YoutubeDataAPI(process.env.REACT_APP_API_KEY);
     api.searchAll("news",25).then((data) => {
         this.setState({
           loading: false,
@@ -56,12 +56,14 @@ class App extends Component{
             handleClick={this.handleClick}
             {...this.state}
           />
-          <Route path='/' exact>
-            <MainPage
-              {...this.state}
-            />
-          </Route>
-          <Route path='/videoPlayer/:id' component={VideoPlayer}/>
+          <Switch>
+            <Route path='/' exact>
+              <MainPage
+                {...this.state}
+              />
+            </Route>
+            <Route path='/videoPlayer/:id' component={VideoPlayer}/>
+          </Switch>
         </div>
       </Router>
     );

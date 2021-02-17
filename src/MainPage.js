@@ -7,7 +7,7 @@ const MainPage = (props)=>{
             {
             props.loading ? 
             "loading..." : 
-            props.youData.items.map((item,index) => (<VideoCards key={index} videoData={item}/>))
+            props.youData.items.map((item,index) => (<VideoCards key={index} videoData={item} />))
             }
         </main>
     )

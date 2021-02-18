@@ -62,7 +62,7 @@ class App extends Component{
                 {...this.state}
               />
             </Route>
-            <Route path='/videoPlayer/:id' component={VideoPlayer}/>
+            <Route path='/videoPlayer/:id' render={(props) => <VideoPlayer {...props} props={this.state}/>}/>
           </Switch>
         </div>
       </Router>

@@ -19,22 +19,55 @@ const VideoCards=(props)=>{
         }
         return howMuchTime
     }
+
+    let titleLimit = (title) =>{
+        let howMany = props.youAre== "videoPlayer"? 50 : 70
+        let res = title.substring(0, howMany);
+        let newTitle = title.length > howMany ? `${res}...` : title
+        return newTitle 
+    }
+
     return(
         <Link 
             className="videoCard__container"
+            style={
+                props.youAre=="videoPlayer" ? 
+                {width: '100%', flexDirection: 'row'}:
+                {width: '20%', flexDirection: 'column'}
+            }
             to={`/videoPlayer/${props.videoData.id.videoId}`}
         >
-
-            <div className="videoCard__container__thumbnail">
+            <div 
+                className="videoCard__container__thumbnail"
+                style={
+                    props.youAre=="videoPlayer"?
+                    {width: '16.8rem', paddingTop: '9.4rem', marginRight: '0.8rem'}:
+                    {paddingTop: '51%'}
+                }
+            >
                 <img 
                     className="videoCard__container__thumbnail--img"
                     src={props.videoData.snippet.thumbnails.high.url}
                 />
             </div>
 
-            <div className="videoCard__container__info">
+            <div 
+                className="videoCard__container__info"
+                style={
+                    props.youAre=="videoPlayer"?
+                    {width: '60%'}:
+                    {width: '100%'}
+                }
+            >
 
-                <div className="videoCard__container__info__miniature">
+                <div 
+                    className="videoCard__container__info__miniature"
+                    style={
+                        props.youAre=="videoPlayer"?
+                        {display:'none'}:
+                        {display: 'inline-flex'}
+                    }
+                >
                     <div className="videoCard__container__info__miniature--img">
                         <img src="/img/miniPicture.jpg"/>
                     </div>
@@ -42,8 +75,15 @@ const VideoCards=(props)=>{
 
                 <div className="videoCard__container__info__text">
 
-                    <div className="videoCard__container__info__text--tittle">
-                        <h3>{props.videoData.snippet.title}</h3>
+                    <div 
+                        className="videoCard__container__info__text--tittle"
+                        style = {
+                            props.youAre == "videoPlayer"?
+                            {margin: '0 0 0.4rem 0'}:
+                            {margin: '1.2rem 0 0.4rem 0'}
+                        }
+                    >
+                        <h3>{titleLimit(props.videoData.snippet.title)}</h3>
                     </div>
 
                     <div className="videoCard__container__info__text--relative">

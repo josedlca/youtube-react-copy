@@ -1,13 +1,18 @@
 import React, {useState, useEffect} from 'react'
 import {YoutubeDataAPI} from 'youtube-v3-api'
+import Comment from './components/Comment'
+import VideoCards from './components/VideoCards'
 
-const VideoPlayer= ({match})=>{
+const VideoPlayer= ({match,props})=>{
 
     useEffect(()=>{
         gettingVideoData();
+        gettingRelatedVideos();
     }, [])
     const [videoDataComments, setVideoDataComments] = useState([])
+    const [relatedVideos, setRelatedVideos] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [relatedLoading, setRelatedLoading] = useState(true)
 
     const gettingVideoData = ()=>{
         const api = new YoutubeDataAPI(process.env.REACT_APP_API_KEY);
@@ -18,6 +23,18 @@ const VideoPlayer= ({match})=>{
             console.error(err);
         })
     }
+
+    const gettingRelatedVideos = () =>{
+        const api = new YoutubeDataAPI(process.env.REACT_APP_API_KEY);
+        api.searchAll(props.searchInput,25).then((data) => {
+            setRelatedVideos(data)
+            setRelatedLoading(false)
+        },(err) => {
+            console.error(err);
+        })
+    }
+    console.log(props.searchInput)
+
     return(
         <main className="videoplayer">
             <div className="videoplayer__videoAndComments">
@@ -35,47 +52,17 @@ const VideoPlayer= ({match})=>{
                         isLoading?
                         <div>Loading comments...</div>:
                         videoDataComments.items.map((item) => (
-
-                            <div className="videoplayer__videoAndComments--comments_comment">
-                                <div className="videoplayer__videoAndComments--comments_comment-img">
-                                    <div className ="videoplayer__videoAndComments--comments_comment-img-container">
-                                        <img src={item.snippet.topLevelComment.snippet.authorProfileImageUrl}/>
-                                    </div>
-                                </div>
-                                <div className="videoplayer__videoAndComments--comments_comment-content">
-                                    <div className="videoplayer__videoAndComments--comments_comment-content-head">
-                                        <p>{item.snippet.topLevelComment.snippet.authorDisplayName}</p>
-                                        <span>{item.snippet.topLevelComment.snippet.publishedAt}</span>
-                                    </div>
-
-                                    <div className="videoplayer__videoAndComments--comments_comment-content-main">
-                                        <p>{item.snippet.topLevelComment.snippet.textOriginal}</p>
-                                    </div>
-
-                                    <div className="videoplayer__videoAndComments--comments_comment-content-likes">
-                                        <span>
-                                            <i class="fas fa-thumbs-up"></i>
-                                            {item.snippet.topLevelComment.snippet.likeCount}
-                                        </span>
-                                        <span>
-                                            <i class="fas fa-thumbs-down"></i>
-                                        </span>
-                                    </div>
-                                    <div className="videoplayer__videoAndComments--comments_comment-content-replies">
-                                        <span>
-                                            <i class="fas fa-sort-down"></i>
-                                            Ver respuestas
-                                        </span>                                        
-                                    </div>
-                                </div>
-                            </div>
-
+                        <Comment key={item.id} {...item}/>
                         ))
                     }                 
                 </div>
             </div>
-            <div>
-                other videos
+            <div className="videoplayer__related">
+                {
+                    relatedLoading?
+                    <div>Is laoding...</div>:
+                    relatedVideos.items.map((item,index) => (<VideoCards key={index} videoData={item} youAre="videoPlayer"/>))
+                }
             </div>
         </main>
     )

@@ -10,12 +10,27 @@ const VideoCards=(props)=>{
 
     const [videoInfo, setVideoInfo] = useState([])
     const [fakeViews, setFakeViews] = useState(true)
+    const [channelInfo, setChannelInfo] = useState([])
+    const [fakeUrl, setFakeUrl] = useState(true)
+
     const getVideoInfo = ()=>{
         const api = new YoutubeDataAPI(process.env.REACT_APP_API_KEY);
-        api.searchVideo(props.videoData.id.videoId).then((data) => {
+        api.searchVideo(props.videoData.id.videoId, {filter: 'id'}).then((data) => {
             setVideoInfo(data)
             setFakeViews(false)
-            console.log(data)
+            if(props.youAre === "mainPage"){
+                data.items.map( item => (getChannelInfo(item.snippet.channelId)))
+            }
+        },(err) => {
+            console.error(err);
+        })
+    }
+
+    const getChannelInfo = (channelId)=>{
+        const api = new YoutubeDataAPI(process.env.REACT_APP_API_KEY);
+        api.searchChannel(channelId, {filter: 'id'}).then((data) => {
+            setChannelInfo(data)
+            setFakeUrl(false)
         },(err) => {
             console.error(err);
         })
@@ -43,8 +58,6 @@ const VideoCards=(props)=>{
         let howMany = props.youAre== "videoPlayer"? 50 : 70
         let res = title.substring(0, howMany);
         let newTitle = title.length > howMany ? `${res}...` : title
-        console.log('real',title)
-        console.log(res)
         return newTitle 
     }
 
@@ -90,7 +103,11 @@ const VideoCards=(props)=>{
                     }
                 >
                     <div className="videoCard__container__info__miniature--img">
-                        <img src="/img/miniPicture.jpg"/>
+                        {
+                            fakeUrl?
+                            <img src="/img/miniPicture.jpg"/>:
+                            <img src={channelInfo.items.map(item => (item.snippet.thumbnails.high.url) )}/>
+                        }                        
                     </div>
                 </div>
 

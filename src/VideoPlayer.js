@@ -19,7 +19,6 @@ const VideoPlayer= ({match,props})=>{
         api.searchCommentThreads(match.params.id,{order:'relevance'}).then((data) => {
             setVideoDataComments(data)
             setIsLoading(false)
-            console.log(data)
         },(err) => {
             console.error(err);
         })

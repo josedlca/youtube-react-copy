@@ -82,6 +82,7 @@ body{
     color: #aaa;
     font-size: 1.3rem;
     font-family: Roboto, Arial, sans-serif;
+    margin-bottom: 0.2rem;
 }
 
 .videoCard__container__info__text--relative_viewsAndtime span:first-child::after{

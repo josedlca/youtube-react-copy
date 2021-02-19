@@ -6,7 +6,7 @@ import VideoCards from './components/VideoCards'
 const VideoPlayer= ({match,props})=>{
 
     useEffect(()=>{
-        gettingVideoData();
+        gettingComments();
         gettingRelatedVideos();
     }, [])
     const [videoDataComments, setVideoDataComments] = useState([])
@@ -14,11 +14,12 @@ const VideoPlayer= ({match,props})=>{
     const [isLoading, setIsLoading] = useState(true)
     const [relatedLoading, setRelatedLoading] = useState(true)
 
-    const gettingVideoData = ()=>{
+    const gettingComments = ()=>{
         const api = new YoutubeDataAPI(process.env.REACT_APP_API_KEY);
         api.searchCommentThreads(match.params.id,{order:'relevance'}).then((data) => {
             setVideoDataComments(data)
             setIsLoading(false)
+            console.log(data)
         },(err) => {
             console.error(err);
         })
@@ -33,7 +34,6 @@ const VideoPlayer= ({match,props})=>{
             console.error(err);
         })
     }
-    console.log(props.searchInput)
 
     return(
         <main className="videoplayer">

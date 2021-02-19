@@ -1,7 +1,26 @@
-import React from 'react'
+import React,{useState, useEffect} from 'react'
+import {YoutubeDataAPI} from 'youtube-v3-api'
 import {Link} from 'react-router-dom'
 
 const VideoCards=(props)=>{
+
+    useEffect(() =>{
+        getVideoInfo()
+    },[])
+
+    const [videoInfo, setVideoInfo] = useState([])
+    const [fakeViews, setFakeViews] = useState(true)
+    const getVideoInfo = ()=>{
+        const api = new YoutubeDataAPI(process.env.REACT_APP_API_KEY);
+        api.searchVideo(props.videoData.id.videoId).then((data) => {
+            setVideoInfo(data)
+            setFakeViews(false)
+            console.log(data)
+        },(err) => {
+            console.error(err);
+        })
+    }
+
     let videoDaysCounter=()=>{
         let pastDate = new Date(props.videoData.snippet.publishedAt)
         let currentDate = new Date()
@@ -24,6 +43,8 @@ const VideoCards=(props)=>{
         let howMany = props.youAre== "videoPlayer"? 50 : 70
         let res = title.substring(0, howMany);
         let newTitle = title.length > howMany ? `${res}...` : title
+        console.log('real',title)
+        console.log(res)
         return newTitle 
     }
 
@@ -83,7 +104,7 @@ const VideoCards=(props)=>{
                             {margin: '1.2rem 0 0.4rem 0'}
                         }
                     >
-                        <h3>{titleLimit(props.videoData.snippet.title)}</h3>
+                        <h3 dangerouslySetInnerHTML={{__html:titleLimit(props.videoData.snippet.title)}}></h3>
                     </div>
 
                     <div className="videoCard__container__info__text--relative">
@@ -93,7 +114,11 @@ const VideoCards=(props)=>{
                         </div>
 
                         <div className="videoCard__container__info__text--relative_viewsAndtime">
-                            <span>0000.000 vistas</span>
+                            {
+                                fakeViews?
+                                <span>0000.000 vistas</span>:
+                                <span>{videoInfo.items.map((item) => (`${item.statistics.viewCount} vistas`))}</span>
+                            }                            
                             <span>{videoDaysCounter()}</span>
                         </div>
 

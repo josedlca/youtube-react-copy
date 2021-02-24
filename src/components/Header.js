@@ -10,6 +10,7 @@ function Header(props){
                     name="searchInput"
                     placeholder="Buscar"
                     onChange={props.handleChangeInput}
+                    onKeyPress={(event) => event.key === 'Enter' ? props.handleClick() : null}
                     className="header__inputText"
                 />
                 <button 
